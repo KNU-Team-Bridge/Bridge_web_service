@@ -26,8 +26,8 @@ const io = socketIo(server, {
     origin: [
       "https://localhost:3000",
       "https://192.168.114.155:3000",
-      "https://localhost:3001",
-      "https://192.168.114.155:3001",
+      "https://localhost:8080",
+      "https://192.168.114.155:8080",
     ],
     methods: ["GET", "POST"],
     credentials: true, // CORS 요청 시 인증 정보를 허용
@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

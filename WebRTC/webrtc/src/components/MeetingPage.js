@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
-import "./App.css";
+//import "./App.css";
 import "./meetingPage.scss";
 import logoImg from "../images/bridge.png";
 import {
@@ -11,7 +11,7 @@ import {
   BsFillChatLeftTextFill,
   BsFillMicMuteFill,
 } from "react-icons/bs";
-import { MdCallEnd } from "react-icons/md";
+import { FaPhoneSlash, FaPhone } from "react-icons/fa6";
 
 function MeetingPage() {
   // FRONT CODE
@@ -22,7 +22,7 @@ function MeetingPage() {
   const Navigate = useNavigate();
 
   const NavigateToMain = () => {
-    Navigate("/mainPage");
+    Navigate("/");
   };
 
   const toggleChat = () => {
@@ -43,25 +43,25 @@ function MeetingPage() {
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
   const [socket, setSocket] = useState(null);
-  const [message, setMessage] = useState("");
-  const [receivedMessages, setReceivedMessages] = useState([]);
+  //const [message, setMessage] = useState("");
+  //const [receivedMessages, setReceivedMessages] = useState([]);
 
   const peerConnectionConfig = {
     iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
   };
   const peerConnection = useRef(new RTCPeerConnection(peerConnectionConfig));
 
-  const sendMessage = () => {
-    if (socket && message) {
-      const messageObject = { text: message, sender: "me" };
-      socket.emit("chatMessage", messageObject);
-      setReceivedMessages((prevMessages) => [...prevMessages, messageObject]);
-      setMessage("");
-    }
-  };
+  // const sendMessage = () => {
+  //   if (socket && message) {
+  //     const messageObject = { text: message, sender: "me" };
+  //     socket.emit("chatMessage", messageObject);
+  //     setReceivedMessages((prevMessages) => [...prevMessages, messageObject]);
+  //     setMessage("");
+  //   }
+  // };
 
   useEffect(() => {
-    const newSocket = io("https://localhost:3001", {
+    const newSocket = io("https://localhost:8080", {
       withCredentials: true,
       secure: true,
     });
@@ -112,12 +112,12 @@ function MeetingPage() {
       );
     });
 
-    newSocket.on("chatMessage", (messageObject) => {
-      setReceivedMessages((prevMessages) => [
-        ...prevMessages,
-        { ...messageObject, sender: "them" },
-      ]);
-    });
+    // newSocket.on("chatMessage", (messageObject) => {
+    //   setReceivedMessages((prevMessages) => [
+    //     ...prevMessages,
+    //     { ...messageObject, sender: "them" },
+    //   ]);
+    // });
 
     return () => {
       newSocket.close();
@@ -178,14 +178,28 @@ function MeetingPage() {
         </div>
         <div className="body1">
           <div className="peer1Video">
-            <video ref={localVideoRef} autoPlay playsInline />
+            <video
+              className="video1"
+              ref={localVideoRef}
+              autoPlay
+              playsInline
+            />
           </div>
           <div className="peer2Video">
-            <video ref={remoteVideoRef} autoPlay playsInline />
+            <video
+              className="video2"
+              ref={remoteVideoRef}
+              autoPlay
+              playsInline
+            />
           </div>
-          <button onClick={startCall}>Start Call</button>
         </div>
         <div className="functions">
+          <div className="startCallBtnDiv">
+            <button onClick={startCall} className="startCallBtn">
+              <FaPhone className="startIcon"></FaPhone>
+            </button>
+          </div>
           <div className="cameraBtnDiv">
             <button onClick={toggleVideo} className="cameraBtn">
               {isCameraOpen ? (
@@ -211,7 +225,7 @@ function MeetingPage() {
           </div>
           <div className="endBtnDiv">
             <button className="endBtn" onClick={NavigateToMain}>
-              <MdCallEnd className="endIcon"></MdCallEnd>
+              <FaPhoneSlash className="endIcon"></FaPhoneSlash>
             </button>
           </div>
         </div>
