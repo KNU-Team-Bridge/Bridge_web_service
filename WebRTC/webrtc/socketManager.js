@@ -94,7 +94,7 @@ const useSocketManager = () => {
     }
   };
 
-  return {localVideoRef, remoteVideoRef, socket, startCall};
+  return {localVideoRef, remoteVideoRef, startCall};
 };
 
 export default useSocketManager;
