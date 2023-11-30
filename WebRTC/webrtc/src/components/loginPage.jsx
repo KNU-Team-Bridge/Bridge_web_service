@@ -10,10 +10,46 @@ function LoginPage() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const realId = "demo";
-  const realPw = "demo";
-
+  // const realId = "demo";
+  // const realPw = "demo";
   const Navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("https://localhost:3001/login", {
+        //주소 수정필요
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userid: id, password: password }),
+        credentials: "include", // 쿠키를 포함시키기 위해 필요
+      });
+
+      if (response.ok) {
+        Swal.fire({
+          title: "로그인 완료",
+          text: "로그인에 성공했습니다.",
+          icon: "success",
+        }).then(() => {
+          goToMain();
+        });
+      } else {
+        const errorMsg = await response.text();
+        Swal.fire({
+          title: "로그인 오류",
+          text: errorMsg,
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "오류 발생",
+        text: "네트워크 오류가 발생했습니다.",
+        icon: "error",
+      });
+    }
+  };
 
   const goToMain = () => {
     Navigate("/");
@@ -38,6 +74,7 @@ function LoginPage() {
         </div>
         <div className="pwComponent">
           <input
+            type="password"
             id="pw"
             className="pwInput"
             placeholder="비밀번호를 입력하세요."
@@ -76,27 +113,7 @@ function LoginPage() {
                     </div>
                 </div>*/}
         <div className="buttonComponent">
-          <button
-            type="button"
-            className="loginButton"
-            onClick={(e) => {
-              if (realId === id && realPw === password) {
-                Swal.fire({
-                  title: "로그인 완료",
-                  text: "",
-                  icon: "success",
-                });
-                e.stopPropagation();
-                goToMain();
-              } else {
-                Swal.fire({
-                  title: "로그인 오류",
-                  text: "아이디와 비밀번호가 일치하지 않습니다.",
-                  icon: "warning",
-                });
-              }
-            }}
-          >
+          <button type="button" className="loginButton" onClick={handleLogin}>
             로그인
           </button>
         </div>
