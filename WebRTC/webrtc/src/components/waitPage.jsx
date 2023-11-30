@@ -1,19 +1,14 @@
 import "./waitPage.scss";
-import React, { useRef, useEffect } from "react";
-//import { useNavigate } from "react-router-dom";
+import React from "react";
 import logoImg from "../images/bridge.png";
+import { useNavigate } from "react-router-dom";
 
 function WaitPage() {
   const localVideoRef = useRef(null);
 
-  useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        localVideoRef.current.srcObject = stream;
-      })
-      .catch((error) => console.error("Error accessing media devices.", error));
-  }, []);
+  const NavigateToMeeting = () => {
+    navigate("../meeting");
+  };
 
   return (
     <div className="pageBackground">
@@ -24,13 +19,15 @@ function WaitPage() {
         <div className="title">Bridge</div>
       </div>
       <div className="body">
-        <div className="videoSpot">
-          <video className="video" ref={localVideoRef} autoPlay playsInline />
-        </div>
+        <div className="videoSpot"></div>
         <div className="textButtonSpot">
           <div className="text">회의에 참가하시겠습니까 ?</div>
           <div className="joinButtonDiv">
-            <button className="joinButton" type="button">
+            <button
+              className="joinButton"
+              type="button"
+              onClick={NavigateToMeeting}
+            >
               회의참가
             </button>
           </div>
