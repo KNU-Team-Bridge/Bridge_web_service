@@ -12,6 +12,7 @@ import {
   BsFillMicMuteFill,
 } from "react-icons/bs";
 import { FaPhoneSlash, FaPhone } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 function MeetingPage() {
   // FRONT CODE
@@ -22,7 +23,16 @@ function MeetingPage() {
   const Navigate = useNavigate();
 
   const NavigateToMain = () => {
-    Navigate("/");
+    Swal.fire({
+      title: "통화 종료 하시겠습니까 ?",
+      showCancelButton: true,
+      icon: "question",
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Navigate("/");
+      }
+    });
   };
 
   const toggleChat = () => {
