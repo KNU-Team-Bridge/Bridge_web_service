@@ -10,15 +10,74 @@ function JoinPage() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [isHearingImpaired, setIsHearingImpaired] = useState(false);
 
-  const realId = "demo";
-  const realPw = "demo";
+  // const realId = "demo";
+  // const realPw = "demo";
 
   const Navigate = useNavigate();
+
+  const handleJoin = async () => {
+    if (!name || !id || !password) {
+      Swal.fire({
+        title: "회원가입 실패",
+        text: "모든 필드를 채워주세요.",
+        icon: "error",
+      });
+      return;
+    }
+    if (password.length < 6) {
+      Swal.fire({
+        title: "회원가입 실패",
+        text: "비밀번호는 6자 이상이어야 합니다.",
+        icon: "error",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch("https://localhost:3001/join", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: name,
+          userid: id,
+          password: password,
+          isHearingImpaired: isHearingImpaired,
+        }),
+      });
+      const data = await response.text(); // 서버의 응답을 텍스트로 받음
+
+      if (response.ok) {
+        Swal.fire({
+          title: "회원가입 완료",
+          text: "",
+          icon: "success",
+        }).then(() => {
+          goToMain();
+        });
+      } else {
+        Swal.fire({
+          title: "회원가입 실패",
+          text: "",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      Swal.fire("Error", "네트워크 오류", "error");
+    }
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsHearingImpaired(event.target.checked);
+  };
 
   const goToMain = () => {
     Navigate("/");
   };
+
   return (
     <div className="background">
       <div className="Components">
@@ -48,6 +107,7 @@ function JoinPage() {
         </div>
         <div className="pwComponents">
           <input
+            type="password"
             id="pw"
             className="pwInput"
             placeholder="비밀번호를 입력하세요."
@@ -66,6 +126,8 @@ function JoinPage() {
               type="checkbox"
               name="deaf"
               value="yes"
+              checked={isHearingImpaired === true}
+              onChange={handleCheckboxChange} // 체크박스 변경 처리
             ></input>
           </div>
           <div className="cbDiv2">
@@ -76,6 +138,8 @@ function JoinPage() {
               type="checkbox"
               name="deaf"
               value="no"
+              checked={isHearingImpaired === false}
+              onChange={handleCheckboxChange} // 체크박스 변경 처리
             ></input>
           </div>
         </div>
@@ -83,20 +147,21 @@ function JoinPage() {
           <button
             type="button"
             className="loginButton"
-            onClick={(e) => {
-              if (realId === id && realPw === password && name === "호반우") {
-                Swal.fire({
-                  title: "회원가입 완료",
-                  text: "",
-                  icon: "success",
-                });
-                setTimeout(3000);
-                e.stopPropagation();
-                goToMain();
-              } else {
-                console.log("?");
-              }
-            }}
+            onClick={handleJoin}
+            // onClick={(e) => {
+            //   if (realId === id && realPw === password && name === "호반우") {
+            //     Swal.fire({
+            //       title: "회원가입 완료",
+            //       text: "",
+            //       icon: "success",
+            //     });
+            //     setTimeout(3000);
+            //     e.stopPropagation();
+            //     goToMain();
+            //   } else {
+            //     console.log("?");
+            //   }
+            // }}
           >
             회원가입
           </button>

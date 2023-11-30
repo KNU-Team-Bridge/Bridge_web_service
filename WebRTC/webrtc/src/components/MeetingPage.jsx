@@ -19,19 +19,14 @@ function MeetingPage() {
   const NavigateToMain = () => {
     Swal.fire({
       title: '통화 종료 하시겠습니까 ?',
-      showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText: '',
-      denyButtonText: `종료`,
+      icon: 'question',
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        Swal.fire('Saved!', '', 'success');
-      } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info');
+        Navigate('/');
       }
     });
-    Navigate('/');
   };
 
   const toggleChat = () => {
@@ -40,11 +35,15 @@ function MeetingPage() {
   };
 
   const toggleVideo = () => {
-    setCameraOpen(!isCameraOpen);
+    const newCameraState = !isCameraOpen;
+    setCameraOpen(newCameraState);
+    socket.emit('cameraStatusChanged', newCameraState);
   };
 
   const toggleMic = () => {
-    setMicOpen(!isMicOpen);
+    const newMicState = !isMicOpen;
+    setMicOpen(newMicState);
+    socket.emit('micStatusChanged', newMicState);
   };
 
   // FRONT CODE END
@@ -70,7 +69,7 @@ function MeetingPage() {
   // };
 
   useEffect(() => {
-    const newSocket = io('https://localhost:8080', {
+    const newSocket = io('https://localhost:3001', {
       withCredentials: true,
       secure: true,
     });
@@ -113,6 +112,13 @@ function MeetingPage() {
       await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
+    newSocket.on('cameraStatusChanged', (newCameraState) => {
+      setCameraOpen(newCameraState);
+    });
+    newSocket.on('micStatusChanged', (newMicState) => {
+      setMicOpen(newMicState);
+    });
+
     // newSocket.on("chatMessage", (messageObject) => {
     //   setReceivedMessages((prevMessages) => [
     //     ...prevMessages,
@@ -121,9 +127,11 @@ function MeetingPage() {
     // });
 
     return () => {
+      newSocket.off('cameraStatusChanged');
+      newSocket.off('micStatusChanged');
       newSocket.close();
     };
-  }, []);
+  }, [isCameraOpen, isMicOpen]);
 
   const startCall = async () => {
     try {

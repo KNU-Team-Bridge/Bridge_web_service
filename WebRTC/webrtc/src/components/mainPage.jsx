@@ -20,6 +20,8 @@ function MainPage() {
   const [isCenterVisible, setIsCenterVisible] = useState(false);
   const [isInfo1Visible, setIsInfo1Visible] = useState(false);
   const [isInfo2Visible, setIsInfo2Visible] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
 
   const targetRefLeft = useRef(null);
   const targetRefRight = useRef(null);
@@ -33,6 +35,28 @@ function MainPage() {
       rootMargin: "0px",
       threshold: 0.5,
     };
+
+    const checkLoginStatus = async () => {
+      try {
+        const response = await fetch("https://localhost:3001/api/auth/status", {
+          //수정필요
+          credentials: "include", // 쿠키를 포함시키기 위해 필요
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setIsLoggedIn(data.isLoggedIn);
+          setUsername(data.username || ""); // username이 undefined가 아닌지 확인
+        } else {
+          setIsLoggedIn(false);
+          setUsername("");
+        }
+      } catch (error) {
+        console.error("Error checking login status", error);
+        setIsLoggedIn(false);
+        setUsername("");
+      }
+    };
+    checkLoginStatus();
 
     const handleIntersectionLeft = (entries) => {
       const entry = entries[0];
@@ -130,6 +154,24 @@ function MainPage() {
     navigate("/wait");
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("https://localhost:3001/api/auth/logout", {
+        credentials: "include",
+      });
+      if (response.ok) {
+        setIsLoggedIn(false);
+        setUsername("");
+        // 로그아웃 후 메인 페이지로 리디렉션
+        navigate("/");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout", error);
+    }
+  };
+
   return (
     <div>
       <div className="head">
@@ -138,15 +180,23 @@ function MainPage() {
         </div>
         <div className="title">Bridge</div>
         <div className="startButton-div2">
-          <div className="join-login">
-            <a className="a-login" href="./login">
-              로그인
-            </a>{" "}
-            /{" "}
-            <a className="a-join" href="./join">
-              회원가입
-            </a>
-          </div>
+          {isLoggedIn ? (
+            <div>
+              <div className="user-greeting">{`${username}님`}</div>
+              <button onClick={handleLogout}>로그아웃</button>
+            </div>
+          ) : (
+            <div className="join-login">
+              {/* href 대신에 onClick을 사용하여 SPA(Single Page Application) 동작을 유지합니다. */}
+              <span className="a-login" onClick={() => navigate("/login")}>
+                로그인
+              </span>{" "}
+              /{" "}
+              <span className="a-join" onClick={() => navigate("/join")}>
+                회원가입
+              </span>
+            </div>
+          )}
           <button className="startButton2" onClick={NavigateToWait}>
             회의 시작
           </button>
