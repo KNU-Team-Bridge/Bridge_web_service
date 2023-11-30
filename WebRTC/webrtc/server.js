@@ -24,9 +24,9 @@ const io = socketIo(server, {
   cors: {
     origin: [
       "https://localhost:3000",
-      "https://192.168.114.155:3000",
+      "https://192.168.86.155:3000",
       "https://localhost:3001",
-      "https://192.168.114.155:3001",
+      "https://192.168.86.155:3001",
     ],
     methods: ["GET", "POST"],
     credentials: true, // CORS 요청 시 인증 정보를 허용
@@ -194,8 +194,14 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("candidate", candidate);
   });
 
-  socket.on("chatMessage", (msg) => {
-    socket.broadcast.emit("chatMessage", msg);
+  // socket.on("chatMessage", (msg) => {
+  //   socket.broadcast.emit("chatMessage", msg);
+  // });
+  socket.on("cameraStatusChanged", (newCameraState) => {
+    socket.broadcast.emit("cameraStatusChanged", newCameraState);
+  });
+  socket.on("micStatusChanged", (newMicState) => {
+    socket.broadcast.emit("micStatusChanged", newMicState);
   });
 
   socket.on("disconnect", () => {
