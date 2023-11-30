@@ -38,7 +38,7 @@ const cors = require("cors");
 // CORS 미들웨어 설정
 app.use(
   cors({
-    origin: "https://localhost:3000", // 클라이언트 주소를 여기에 명시
+    origin: "https://192.168.86.155:3000", // 클라이언트 주소를 여기에 명시
     methods: ["GET", "POST"],
     credentials: true,
   })

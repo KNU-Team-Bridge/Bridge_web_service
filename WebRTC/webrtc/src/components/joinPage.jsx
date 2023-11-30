@@ -36,7 +36,7 @@ function JoinPage() {
     }
 
     try {
-      const response = await fetch("https://localhost:3001/join", {
+      const response = await fetch("https://192.168.86.155:3001/join", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
