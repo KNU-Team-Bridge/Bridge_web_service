@@ -1,9 +1,16 @@
 import './waitPage.scss';
 import React, {useRef, useEffect} from 'react';
 import logoImg from '../images/bridge.png';
+import {useNavigate} from 'react-router-dom';
 
 function WaitPage() {
   const localVideoRef = useRef(null);
+
+  const Navigate = useNavigate();
+
+  const NavigateToMeeting = () => {
+    Navigate('/meeting');
+  };
 
   useEffect(() => {
     navigator.mediaDevices
@@ -29,7 +36,7 @@ function WaitPage() {
         <div className='textButtonSpot'>
           <div className='text'>회의에 참가하시겠습니까 ?</div>
           <div className='joinButtonDiv'>
-            <button className='joinButton' type='button'>
+            <button className='joinButton' onClick={NavigateToMeeting} type='button'>
               회의참가
             </button>
           </div>

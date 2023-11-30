@@ -6,6 +6,7 @@ import './meetingPage.scss';
 import logoImg from '../images/bridge.png';
 import {BsCameraVideoFill, BsFillCameraVideoOffFill, BsFillMicFill, BsFillChatLeftTextFill, BsFillMicMuteFill} from 'react-icons/bs';
 import {FaPhoneSlash, FaPhone} from 'react-icons/fa6';
+import Swal from 'sweetalert2';
 
 function MeetingPage() {
   // FRONT CODE
@@ -16,6 +17,20 @@ function MeetingPage() {
   const Navigate = useNavigate();
 
   const NavigateToMain = () => {
+    Swal.fire({
+      title: '통화 종료 하시겠습니까 ?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: '',
+      denyButtonText: `종료`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire('Saved!', '', 'success');
+      } else if (result.isDenied) {
+        Swal.fire('Changes are not saved', '', 'info');
+      }
+    });
     Navigate('/');
   };
 
