@@ -1,5 +1,3 @@
-const fs = require("fs");
-const https = require("https");
 const express = require("express");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
@@ -8,43 +6,28 @@ const socketIo = require("socket.io");
 const db = require("./src/components/db");
 const saltRounds = 10;
 const app = express();
+const http = require("http");
 
-const privateKey = fs.readFileSync(
-  "C:/Users/x/Desktop/fp/Bridge_web_service/WebRTC/webrtc/cert/localhost+1-key.pem",
-  "utf8"
-);
-const certificate = fs.readFileSync(
-  "C:/Users/x/Desktop/fp/Bridge_web_service/WebRTC/webrtc/cert/localhost+1.pem",
-  "utf8"
-);
-const credentials = { key: privateKey, cert: certificate };
-const server = https.createServer(credentials, app);
-
+const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: [
-      "https://localhost:3000",
-      "https://192.168.86.155:3000",
-      "https://localhost:3001",
-      "https://192.168.86.155:3001",
-    ],
+    origin: ["https://bridgepeople.site"],
     methods: ["GET", "POST"],
     credentials: true, // CORS 요청 시 인증 정보를 허용
   },
 });
-
 const cors = require("cors");
 
 // CORS 미들웨어 설정
 app.use(
   cors({
-    origin: "https://192.168.86.155:3000", // 클라이언트 주소를 여기에 명시
+    origin: "https://bridgepeople.site", // 클라이언트 주소를 여기에 명시
     methods: ["GET", "POST"],
     credentials: true,
   })
 );
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(bodyParser.json()); // JSON 파싱을 위한 미들웨어 추가
 app.use(
   session({
@@ -54,8 +37,8 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.sendFile("index.html", { root: "public" });
+app.get("/", function (req, res) {
+  res.sendFile(__dirname + "/build/index.html");
 });
 
 app.post("/join", async (req, res) => {
@@ -209,7 +192,7 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

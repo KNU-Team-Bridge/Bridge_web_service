@@ -16,7 +16,7 @@ function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("https://192.168.86.155:3001/login", {
+      const response = await fetch("https://bridgepeople.site:3000/login", {
         //주소 수정필요
         method: "POST",
         headers: {

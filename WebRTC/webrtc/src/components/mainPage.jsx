@@ -40,7 +40,7 @@ function MainPage() {
     const checkLoginStatus = async () => {
       try {
         const response = await fetch(
-          "https://192.168.86.155:3001/api/auth/status",
+          "https://bridgepeople.site:3000/api/auth/status",
           {
             //수정필요
             credentials: "include", // 쿠키를 포함시키기 위해 필요
@@ -161,7 +161,7 @@ function MainPage() {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        "https://192.168.86.155:3001/api/auth/logout",
+        "https://bridgepeople.site:3000/api/auth/logout",
         {
           //수정 필요
           credentials: "include",
