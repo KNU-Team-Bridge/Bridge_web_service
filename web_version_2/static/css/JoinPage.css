@@ -1,0 +1,215 @@
+.body {
+  margin: 0;
+  padding: 0;
+}
+
+.background {
+  background-color: #f3fbff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.background .Components {
+  /* border: 1px solid black; */
+  height: 680px;
+  width: 630px;
+}
+
+.background .Components input:focus {
+  outline-color: #2c90c8;
+}
+
+.background .Components input::placeholder {
+  padding-left: 15px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.background .Components .logo {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.background .Components .logo .logoImage {
+  width: 70px;
+  height: 70px;
+}
+
+.background .Components .title {
+  height: 110px;
+  text-align: center;
+  font-family: RacingSansOne-Regular;
+  font-size: 70px;
+  color: #2c90c8;
+}
+
+.background .Components .nameComponents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  padding-top: 10px;
+}
+
+.background .Components .nameComponents .nameInput {
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 1px 3px 3px 2px #dedede;
+}
+
+.background .Components .nameMessage {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.background .Components .nameMessage .nameMessageDiv {
+  /* border: 1px solid black; */
+  font-weight: 600;
+  width: 400px;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.background .Components .idComponents {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.background .Components .idMessage {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.background .Components .idMessage .idMessageDiv {
+  /* border: 1px solid black; */
+  font-weight: 600;
+  width: 400px;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.background .Components .idComponents .idInput {
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 1px 3px 3px 2px #dedede;
+}
+
+.background .Components .pwComponents {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-radius: 0%;
+}
+
+.background .Components .pwComponents .pwInput {
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 1px 3px 3px 2px #dedede;
+}
+
+.background .Components .pwMessage {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.background .Components .pwMessage .pwMessageDiv {
+  /* border: 1px solid black; */
+  font-weight: 600;
+  width: 400px;
+  text-align: left;
+  padding-left: 5px;
+}
+
+.background .Components .cbComponents {
+  margin-top: 30px;
+  /* border: 1px solid black; */
+  display: inline-block;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.background .Components .cbComponents .questionText {
+  padding-right: 40px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #2c90c8;
+  float: left;
+}
+
+.background .Components .cbComponents .cbDiv1 {
+  width: 70px;
+  float: left;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.background .Components .cbComponents .cbDiv1 .cbtext {
+  float: left;
+  font-size: 17px;
+  padding-right: 5px;
+}
+
+.background .Components .cbComponents .cbDiv2 {
+  width: 70px;
+  float: left;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.background .Components .cbComponents .cbDiv2 .cbtext {
+  float: left;
+  font-size: 17px;
+  padding-right: 5px;
+}
+
+.background .Components .buttonComponent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-radius: 0%;
+  padding-top: 30px;
+}
+
+.background .Components .buttonComponent .joinButton {
+  border-radius: 30px;
+  width: 410px;
+  height: 60px;
+  background-color: #2c90c8;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0px 4px 4px 2px #dedede;
+}
+
+@font-face {
+  font-family: RacingSansOne-Regular;
+  src: url('../fonts/RacingSansOne-Regular.ttf');
+}
