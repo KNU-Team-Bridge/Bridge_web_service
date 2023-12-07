@@ -1,0 +1,119 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.background {
+  background-color: #f3fbff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.background .Components {
+  height: 550px;
+  width: 630px;
+}
+
+.background .Components input:focus {
+  outline-color: #2c90c8;
+}
+
+.background .Components input::placeholder {
+  padding-left: 15px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.background .Components .logo {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.background .Components .logo .logoImage {
+  width: 70px;
+  height: 70px;
+}
+
+.background .Components .title {
+  height: 110px;
+  text-align: center;
+  font-family: RacingSansOne-Regular;
+  font-size: 70px;
+  color: #2c90c8;
+}
+
+.background .Components .idComponent,
+.background .Components .pwComponent,
+.background .Components .buttonComponent {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  border-radius: 0%;
+}
+
+.background .Components .idComponent .idInput,
+.background .Components .pwComponent .pwInput,
+.background .Components .buttonComponent .loginButton {
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 1px 3px 3px 2px #dedede;
+}
+
+.background .Components .cbComponent {
+  /* border: 1px solid black; */
+  position: relative;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background .Components .Componentcb {
+  border: 1px solid red;
+  width: 400px;
+}
+
+/* .background .Components .cbComponent .cb1Div, */
+.background .Components .cbComponent .cb2Div {
+  border: 1px solid black;
+  width: 120px;
+  text-align: center;
+  position: relative;
+}
+
+.background .Components .cbComponent .cbtext {
+  /* border: 1px solid violet; */
+  font-weight: 700;
+  color: gray;
+  font-size: 15px;
+  float: left;
+}
+
+.background .Components .buttonComponent .loginButton {
+  border-radius: 30px;
+  width: 410px;
+  height: 60px;
+  background-color: #2c90c8;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0px 4px 4px 2px #dedede;
+}
+
+.background .Components .buttonComponent {
+  margin-top: 10px;
+}
+
+@font-face {
+  font-family: RacingSansOne-Regular;
+  src: url('../fonts/RacingSansOne-Regular.ttf');
+}
