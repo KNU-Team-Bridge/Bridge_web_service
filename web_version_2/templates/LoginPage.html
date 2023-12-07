@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="{{ url_for('static', filename='css/LoginPage.css') }}" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="body">
+    <div class="background">
+      <div class="Components">
+        <div class="logo">
+          <img class="logoImage" src="{{ url_for('static', filename='images/bridge.png') }}" alt="bridge-logo-img" />
+        </div>
+        <div class="title">Bridge</div>
+        <div class="idComponent">
+          <form>
+            <input id="id" class="idInput" placeholder="아이디를 입력하세요." />
+          </form>
+        </div>
+        <div class="pwComponent">
+          <form>
+            <input type="password" id="password" class="pwInput" placeholder="비밀번호를 입력하세요." />
+          </form>
+        </div>
+        <!-- <div class="cbComponent">
+          <div class="Componentcb">
+            <div class="cb1Div">
+              <form>
+                <input class="cb" type="checkbox" name="saveId" value="saveId" />
+              </form>
+            </div>
+            <div class="cb2Div">
+              <form>
+                <input class="cb" type="checkbox" name="autoLogin" value="autoLogin" />
+              </form>
+            </div>
+          </div>
+        </div> -->
+        <!--
+        <div class="cbComponent">
+          <div class="questionText">나는 청각장애인이다</div>
+          <div class="cbDiv">
+            <text>Yes</text>
+            <input class="cb" type="checkbox" name="deaf" value="yes"></input>
+            <text>No</text>(
+            <input class="cb" type="checkbox" name="deaf" value="no"></input>
+          </div>
+        </div>
+        -->
+        <div class="buttonComponent">
+          <button type="button" class="loginButton" onclick="validateLogin()">로그인</button>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/LoginPage.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  </body>
+</html>
