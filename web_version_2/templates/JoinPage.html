@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="{{ url_for('static', filename='css/JoinPage.css') }}" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JoinPage</title>
+  </head>
+  <body class="body">
+    <div class="background">
+      <div class="Components">
+        <div class="logo">
+          <img class="logoImage" src="{{ url_for('static', filename='images/bridge.png') }}" alt="bridge-logo-img" />
+        </div>
+        <div class="title">Bridge</div>
+        <div class="nameComponents">
+          <input id="name" class="nameInput" placeholder="이름을 입력하세요." />
+        </div>
+        <div class="nameMessage">
+          <div id="nameMessageDiv" class="nameMessageDiv"></div>
+        </div>
+        <div class="idComponents">
+          <input id="id" class="idInput" placeholder="아이디를 입력하세요." />
+        </div>
+        <div class="idMessage">
+          <div id="idMessageDiv" class="idMessageDiv"></div>
+        </div>
+        <div class="pwComponents">
+          <input type="password" id="password" class="pwInput" placeholder="비밀번호를 입력하세요." />
+        </div>
+        <div class="pwMessage">
+          <div id="pwMessageDiv" class="pwMessageDiv"></div>
+        </div>
+        <div class="cbComponents">
+          <div class="questionText">나는 청각장애인이다</div>
+          <div class="cbDiv1">
+            <div class="cbtext">Yes</div>
+            <input id="Yes" class="cb" type="checkbox" name="deaf" value="yes" />
+          </div>
+          <div class="cbDiv2">
+            <div class="cbtext">No</div>
+            <input id="No" class="cb" type="checkbox" name="deaf" value="no" />
+          </div>
+        </div>
+        <div class="buttonComponent">
+          <button type="button" class="joinButton" onClick="handleJoin()">회원가입</button>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/JoinPage.js') }}"></script>
+  </body>
+</html>
