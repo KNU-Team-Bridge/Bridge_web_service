@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+    <link href="{{ url_for('static', filename='css/MeetingPage.css') }}" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MeetingPage</title>
+  </head>
+  <body class="body">
+    <div class="meetpageBackground">
+      <div class="head-body-functions">
+        <div class="head">
+          <div class="logo">
+            <img class="logoImage" src="{{ url_for('static', filename='images/bridge.png') }}" alt="bridge-logo-img" />
+          </div>
+          <div class="title">Bridge</div>
+        </div>
+        <div class="body1">
+          <div class="peer1Video">
+            <video class="video1" autoplay playsinline></video>
+          </div>
+          <div class="peer2Video">
+            <video class="video2" autoplay playsinline></video>
+          </div>
+        </div>
+        <div class="functions">
+          <div class="startCallBtnDiv">
+            <button onclick="startCall()" class="startCallBtn">
+              <!-- Assume you have an icon for FaPhone or use text if not -->
+              <span class="startIcon">FaPhone</span>
+            </button>
+          </div>
+          <div class="cameraBtnDiv">
+            <button onclick="toggleVideo()" class="cameraBtn">
+              <!-- Assume you have icons for BsCameraVideoFill and BsFillCameraVideoOffFill or use text if not -->
+              <span class="cameraIcon">Camera Icon</span>
+            </button>
+          </div>
+          <div class="micBtnDiv">
+            <button onclick="toggleMic()" class="micBtn">
+              <!-- Assume you have icons for BsFillMicFill and BsFillMicMuteFill or use text if not -->
+              <span class="micIcon">Mic Icon</span>
+            </button>
+          </div>
+          <div class="textBtnDiv">
+            <button onclick="toggleChat()" class="textBtn">
+              <!-- Assume you have an icon for BsFillChatLeftTextFill or use text if not -->
+              <span class="textIcon">Chat Icon</span>
+            </button>
+          </div>
+          <div class="endBtnDiv">
+            <button onclick="NavigateToMain()" class="endBtn">
+              <!-- Assume you have an icon for FaPhoneSlash or use text if not -->
+              <span class="endIcon">FaPhoneSlash</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="chatBoxId" class="hidden">
+        <div class="chatBoxstyle">
+          <div id="chatHead" class="chat-head"></div>
+          <div class="chatLine"></div>
+          <div class="chat-message">
+            <div class="user1">
+              <div id="user1Name" class="user1-name"></div>
+              <div class="user1-message"></div>
+            </div>
+            <div class="user2">
+              <div class="user2-message"></div>
+              <div id="user2Name" class="user2-name"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/MeetingPage.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  </body>
+</html>
