@@ -1,0 +1,100 @@
+.body {
+  margin: 0;
+  padding: 0;
+}
+
+.pageBackground {
+  /* border: 1px solid red; */
+  background-color: #f3fbff;
+  height: 100vh;
+  width: 100vw;
+}
+
+.pageBackground .head {
+  height: 8%;
+  display: flex;
+  align-items: center;
+}
+
+.pageBackground .head .logo {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.pageBackground .head .logo .logoImage {
+  height: 50px;
+}
+
+.pageBackground .head .title {
+  font-family: RacingSansOne-Regular;
+  font-size: 40px;
+  color: #2c90c8;
+  margin-left: 5px;
+}
+
+.pageBackground .body {
+  height: 92%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageBackground .body .videoSpot {
+  border: 1px solid black;
+  border: 0;
+  height: 560px;
+  width: 740px;
+  border-radius: 20px;
+  margin-right: 100px;
+}
+
+.pageBackground .body .videoSpot .video {
+  height: 560px;
+  width: 740px;
+  border-radius: 20px;
+  transform: scaleX(-1);
+}
+
+.pageBackground .body .textButtonSpot {
+  height: 700px;
+  width: 700px;
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pageBackground .body .textButtonSpot .text {
+  font-size: 40px;
+  font-weight: 800;
+  color: #2c90c8;
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+}
+
+.pageBackground .body .textButtonSpot .joinButtonDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageBackground .body .textButtonSpot .joinButtonDiv .joinButton {
+  height: 60px;
+  width: 200px;
+  background-color: #c5e6f9;
+  color: #2c90c8;
+  font-size: 25px;
+  font-weight: 700;
+  border-radius: 40px;
+  border: none;
+  box-shadow: 0px 4px 4px 2px #dedede;
+}
+
+@font-face {
+  font-family: RacingSansOne-Regular;
+  src: url('../fonts/RacingSansOne-Regular.ttf');
+}
