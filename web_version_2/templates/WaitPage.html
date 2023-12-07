@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="{{ url_for('static', filename='css/WaitPage.css') }}" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="body">
+    <div class="pageBackground">
+      <div class="head">
+        <div class="logo">
+          <img class="logoImage" src="{{ url_for('static', filename='images/bridge.png') }}" alt="bridge-logo-img" />
+        </div>
+        <div class="title">Bridge</div>
+      </div>
+      <div class="body">
+        <div class="videoSpot">
+          <video class="video" autoplay playsinline></video>
+        </div>
+        <div class="textButtonSpot">
+          <div class="text">회의에 참가하시겠습니까 ?</div>
+          <div class="joinButtonDiv">
+            <button class="joinButton" type="button">회의참가</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
