@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="{{ url_for('static', filename='css/MainPage.css') }}" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="body">
+    <div class="head">
+      <div class="logo">
+        <img class="logoImage" src="{{ url_for('static', filename='images/bridge.png') }}" alt="bridge-logo-img" />
+      </div>
+      <div class="title">Bridge</div>
+      <div class="startButton-div2">
+        <!-- isLoggedin 값이 false일 경우 실행 -->
+        <div class="join-login">
+          <span id="user-login" class="a-login"></span>/
+          <span id="logout-join" class="a-join"></span>
+        </div>
+        <!-- isLoggedin 값이 false일 경우 실행 -->
+        <button class="startButton2">회의 시작</button>
+      </div>
+    </div>
+    <div class="body">
+      <div class="intro">
+        <div class="intro-left">
+          <div class="intro-title">Bridge</div>
+          <div class="intro-subtitle">청각장애인과 소통할 수 있는 화상회의 서비스</div>
+          <div class="startButton-div">
+            <button class="startButton">회의 시작</button>
+          </div>
+        </div>
+        <div class="intro-right">
+          <img class="deaf-image" src="{{ url_for('static', filename='images/deaf.png') }}" alt="deaf.png" />
+        </div>
+      </div>
+      <div class="info">
+        <!-- ifInfo1Visible이 true이면 info-1 -->
+        <div id="info-1" class="info-1">
+          <div class="text-div1">
+            <div class="text-1">청각장애인과 비장애인<br />최초의 소통 공간</div>
+            <div class="text-2">
+              Bridge를 통해 소통의 장벽이
+              <br />
+              없는 세상이 되기 바랍니다.
+            </div>
+          </div>
+          <div class="img-div1">
+            <img class="communication-image" src="{{ url_for('static', filename='images/communication.avif') }}" alt="communication.png" />
+          </div>
+        </div>
+        <div class="info-2">
+          <div class="text-div2">
+            <div class="text-1">수화 인식 AI<br />정확한 인식율</div>
+            <div class="text-2">
+              카메라로 수화를 인식하여<br />
+              텍스트로 변환해 보여줍니다.
+            </div>
+          </div>
+          <div class="img-div2">
+            <img class="computer-image" src="{{ url_for('static', filename='images/computer.png') }}" alt="computer.png" />
+          </div>
+        </div>
+      </div>
+      <div class="manual">
+        <!-- .left.visible -->
+        <div class="left">
+          <div class="left-up">
+            <div class="img-hand">
+              <img class="hand-img" src="{{ url_for('static', filename='images/hand.png') }}" alt="hand.png" />
+            </div>
+            <div class="arrow1">
+              <img class="right-arrow" src="{{ url_for('static', filename='images/right-arrow.png') }}" alt="right-arrow.png" />
+            </div>
+          </div>
+          <div class="left-down">수화를 하면 문장이<br />메세지로 전달됩니다</div>
+        </div>
+        <!-- .center.visible -->
+        <div class="center">
+          <img src="{{ url_for('static', filename='images/message.png') }}" alt="message.png" class="messageImage" />
+        </div>
+        <!-- .right.visible -->
+        <div class="right">
+          <div class="right-up">음성으로 말하면 문장이<br />메세지로 전달되게 됩니다</div>
+          <div class="right-down">
+            <div class="arrow2">
+              <img class="left-arrow" src="{{ url_for('static', filename='images/left-arrow.png') }}" alt="left-arrow.png" />
+            </div>
+            <div class="img-sound">
+              <img class="sound-img" src="{{ url_for('static', filename='images/speaking.png') }}" alt="sound.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="end">
+      <div class="end-center">
+        <div class="up">
+          <div class="logo">
+            <img class="logoImage" src="{{ url_for('static', filename='images/bridge.png') }}" alt="bridge-logo-img" />
+          </div>
+          <div class="title">Bridge</div>
+          <div class="up-right">
+            <div class="service">서비스 이용약관</div>
+            <div class="personal-info">개인정보 이용약관</div>
+          </div>
+        </div>
+        <div class="line"></div>
+        <div class="down">
+          <div class="down-up">브릿지팀 | 053-950-5550 | bridge@knu.ac.kr</div>
+          <div class="down-center">41566 대구광역시 북구 대학로 80 / IT대학 융복합관 317호(건물번호 : 415)</div>
+          <div class="down-down">ⓒ 2023 BridgeTeam, Inc. All rights reserved.</div>
+        </div>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/MainPage.js') }}"></script>
+  </body>
+</html>
