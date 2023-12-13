@@ -22,6 +22,7 @@ const io = socketIo(server, {
   },
 });
 const cors = require("cors");
+const axios = require('axios');
 
 // CORS 미들웨어 설정
 app.use(
@@ -167,22 +168,24 @@ app.get("/api/auth/logout", (req, res) => {
   });
 });
 
-// yolo model make
-/*const { exec } = require('child_process');
+// 이미지 데이터를 받기 위한 API 엔드포인트
+app.post('/upload_image', (req, res) => {
+  // 클라이언트로부터 이미지 데이터를 받음
+  const base64EncodedImageData = req.body.image;
 
-let darknetCompiled = false; // Darknet이 컴파일되었는지 여부
-
-// Darknet 컴파일을 위한 make 명령어 실행
-const makeCommand = `cd ./darknet && make`;
-exec(makeCommand, (error, stdout, stderr) => {
-  if (error) {
-  console.error(`Error executing make command: ${error.message}`);
-  darknetCompiled = false; // Darknet이 성공적으로 컴파일되지 않음
-  return;
-}
-  console.log("Darknet compiled successfully.");
-  darknetCompiled = true;
-});*/
+  // Flask 서버로 이미지 데이터를 전송
+  axios.post('http://localhost:5000/process_image', {
+    image: base64EncodedImageData
+  })
+  .then(response => {
+    console.log(response.data); // Flask 서버로부터의 응답을 처리
+    res.send(response.data); // 클라이언트에게 응답 전송
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    res.status(500).send('Error processing image');
+  });
+});
 
 
 io.on("connection", (socket) => {
@@ -206,9 +209,23 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("candidate", candidate);
   });
 
-  // socket.on("chatMessage", (msg) => {
-  //   socket.broadcast.emit("chatMessage", msg);
-  // });
+  socket.on('imageCaptured', (dataURL) => {
+    // dataURL을 이미지로 변환
+    const base64Data = dataURL.replace(/^data:image\/jpeg;base64,/, "");
+    const buffer = Buffer.from(base64Data, 'base64');
+    
+    // 파이썬 서버로 전송
+    const pythonServerUrl = 'http://localhost:5000/image';
+    axios.post(pythonServerUrl, { image: buffer })
+      .then(response => {
+        // 파이썬 서버로부터 응답을 받고 클라이언트에게 전송
+        socket.emit('imageProcessed', response.data);
+      })
+      .catch(error => {
+        console.error('Error sending image to Python server:', error);
+      });
+  });
+  
   socket.on("cameraStatusChanged", (newCameraState) => {
     socket.broadcast.emit("cameraStatusChanged", newCameraState);
   });

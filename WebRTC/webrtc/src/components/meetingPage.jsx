@@ -1,36 +1,34 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import io from "socket.io-client";
-//import "./App.css";
-import "./meetingPage.scss";
-import logoImg from "../images/bridge.png";
-import {
-  BsCameraVideoFill,
-  BsFillCameraVideoOffFill,
-  BsFillMicFill,
-  BsFillChatLeftTextFill,
-  BsFillMicMuteFill,
-} from "react-icons/bs";
-import { FaPhoneSlash, FaPhone } from "react-icons/fa6";
-import Swal from "sweetalert2";
+import React, {useEffect, useRef, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import io from 'socket.io-client';
+import './meetingPage.scss';
+import logoImg from '../images/bridge.png';
+import {BsCameraVideoFill, BsFillCameraVideoOffFill, BsFillMicFill, BsFillChatLeftTextFill, BsFillMicMuteFill} from 'react-icons/bs';
+import {PiEar} from 'react-icons/pi';
+import {FaPhoneSlash, FaPhone} from 'react-icons/fa6';
+import {FaHandPaper} from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 function MeetingPage() {
   // FRONT CODE
   const [isChatOpen, setChatOpen] = useState(false);
   const [isMicOpen, setMicOpen] = useState(true);
   const [isCameraOpen, setCameraOpen] = useState(true);
+  const [isMicRec, setMicRec] = useState(false);
+  const [isVideoRec, setVideoRec] = useState(false);
+  const [receivedData, setReceivedData] = useState([]);
 
   const Navigate = useNavigate();
 
   const NavigateToMain = () => {
     Swal.fire({
-      title: "통화 종료 하시겠습니까 ?",
+      title: '통화 종료 하시겠습니까 ?',
       showCancelButton: true,
-      icon: "question",
+      icon: 'question',
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        Navigate("/");
+        Navigate('/');
       }
     });
   };
@@ -43,13 +41,21 @@ function MeetingPage() {
   const toggleVideo = () => {
     const newCameraState = !isCameraOpen;
     setCameraOpen(newCameraState);
-    socket.emit("cameraStatusChanged", newCameraState);
+    socket.emit('cameraStatusChanged', newCameraState);
   };
 
   const toggleMic = () => {
     const newMicState = !isMicOpen;
     setMicOpen(newMicState);
-    socket.emit("micStatusChanged", newMicState);
+    socket.emit('micStatusChanged', newMicState);
+  };
+
+  const toggleMicRec = () => {
+    setMicRec(!isMicRec);
+  };
+
+  const toggleVideoRec = () => {
+    setVideoRec(!isVideoRec);
   };
 
   // FRONT CODE END
@@ -61,7 +67,7 @@ function MeetingPage() {
   //const [receivedMessages, setReceivedMessages] = useState([]);
 
   const peerConnectionConfig = {
-    iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    iceServers: [{urls: 'stun:stun.l.google.com:19302'}],
   };
   const peerConnection = useRef(new RTCPeerConnection(peerConnectionConfig));
 
@@ -73,9 +79,11 @@ function MeetingPage() {
   //     setMessage("");
   //   }
   // };
+  let intervalId = useRef(null);
+  //let captureAndSendImage = useRef(null);
 
   useEffect(() => {
-    const newSocket = io("https://bridgepeople.site", {
+    const newSocket = io('https://bridgepeople.site', {
       withCredentials: true,
       secure: true,
     });
@@ -83,19 +91,19 @@ function MeetingPage() {
     setSocket(newSocket);
 
     navigator.mediaDevices
-      .getUserMedia({ video: isCameraOpen, audio: isMicOpen })
+      .getUserMedia({video: isCameraOpen, audio: isMicOpen})
       .then((stream) => {
         localVideoRef.current.srcObject = stream;
         stream.getTracks().forEach((track) => {
           peerConnection.current.addTrack(track, stream);
         });
       })
-      .catch((error) => console.error("Error accessing media devices.", error));
+      .catch((error) => console.error('Error accessing media devices.', error));
 
     // 이벤트 핸들러를 peerConnection.current에 올바르게 설정합니다.
     peerConnection.current.onicecandidate = (event) => {
       if (event.candidate) {
-        newSocket.emit("candidate", event.candidate);
+        newSocket.emit('candidate', event.candidate);
       }
     };
 
@@ -103,49 +111,60 @@ function MeetingPage() {
       remoteVideoRef.current.srcObject = event.streams[0];
     };
 
-    newSocket.on("offer", async (offer) => {
-      await peerConnection.current.setRemoteDescription(
-        new RTCSessionDescription(offer)
-      );
+    newSocket.on('imageProcessed', (data) => {
+      setReceivedData((prevData) => [...prevData, data]);
+    });
+
+    newSocket.on('offer', async (offer) => {
+      await peerConnection.current.setRemoteDescription(new RTCSessionDescription(offer));
       const answer = await peerConnection.current.createAnswer();
-      await peerConnection.current.setLocalDescription(
-        new RTCSessionDescription(answer)
-      );
-      newSocket.emit("answer", answer);
+      await peerConnection.current.setLocalDescription(new RTCSessionDescription(answer));
+      newSocket.emit('answer', answer);
     });
 
-    newSocket.on("answer", async (answer) => {
-      await peerConnection.current.setRemoteDescription(
-        new RTCSessionDescription(answer)
-      );
+    newSocket.on('answer', async (answer) => {
+      await peerConnection.current.setRemoteDescription(new RTCSessionDescription(answer));
     });
 
-    newSocket.on("candidate", async (candidate) => {
-      await peerConnection.current.addIceCandidate(
-        new RTCIceCandidate(candidate)
-      );
+    newSocket.on('candidate', async (candidate) => {
+      await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
-    newSocket.on("cameraStatusChanged", (newCameraState) => {
+    newSocket.on('cameraStatusChanged', (newCameraState) => {
       setCameraOpen(newCameraState);
     });
-    newSocket.on("micStatusChanged", (newMicState) => {
+    newSocket.on('micStatusChanged', (newMicState) => {
       setMicOpen(newMicState);
     });
 
-    // newSocket.on("chatMessage", (messageObject) => {
-    //   setReceivedMessages((prevMessages) => [
-    //     ...prevMessages,
-    //     { ...messageObject, sender: "them" },
-    //   ]);
-    // });
+    function captureAndSendImage(videoElement) {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoElement.videoWidth;
+      console.log(canvas.width);
+      canvas.height = videoElement.videoHeight;
+      console.log(canvas.height);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+      const dataURL = canvas.toDataURL('image/jpeg');
+
+      // 이미지 데이터를 서버로 전송
+      socket.emit('imageCaptured', dataURL);
+    }
+
+    intervalId.current = setInterval(() => {
+      console.log('hello');
+      if (localVideoRef.current && isCameraOpen) {
+        captureAndSendImage(localVideoRef.current);
+      }
+    }, 1000);
 
     return () => {
-      newSocket.off("cameraStatusChanged");
-      newSocket.off("micStatusChanged");
+      clearInterval(intervalId);
+      newSocket.off('cameraStatusChanged');
+      newSocket.off('micStatusChanged');
       newSocket.close();
     };
-  }, [isCameraOpen, isMicOpen]);
+  }, [isCameraOpen, isMicOpen, intervalId, socket]);
 
   const startCall = async () => {
     try {
@@ -153,14 +172,12 @@ function MeetingPage() {
       const offer = await peerConnection.current.createOffer();
 
       // Local description 설정
-      await peerConnection.current.setLocalDescription(
-        new RTCSessionDescription(offer)
-      );
+      await peerConnection.current.setLocalDescription(new RTCSessionDescription(offer));
 
       // Socket을 통해 offer 전송
-      socket.emit("offer", offer);
+      socket.emit('offer', offer);
     } catch (error) {
-      console.error("Error in startCall:", error);
+      console.error('Error in startCall:', error);
     }
   };
 
@@ -187,91 +204,99 @@ function MeetingPage() {
       </div>
     </div>*/
 
-    <div className="meetpageBackground">
-      <div className="head-body-functions">
-        <div className="head">
-          <div className="logo">
-            <img
-              className="logoImage"
-              src={logoImg}
-              alt="bridge-logo-img"
-            ></img>
+    <div className='meetpageBackground'>
+      <div className='head-body-functions'>
+        <div className='head'>
+          <div className='logo'>
+            <img className='logoImage' src={logoImg} alt='bridge-logo-img'></img>
           </div>
-          <div className="title">Bridge</div>
+          <div className='title'>Bridge</div>
         </div>
-        <div className="body1">
-          <div className="peer1Video">
-            <video
-              className="video1"
-              ref={localVideoRef}
-              autoPlay
-              playsInline
-            />
+        <div className='body1'>
+          <div className='peer1Video'>
+            <video className='video1' ref={localVideoRef} autoPlay playsInline />
           </div>
-          <div className="peer2Video">
-            <video
-              className="video2"
-              ref={remoteVideoRef}
-              autoPlay
-              playsInline
-            />
+          <div className='peer2Video'>
+            <video className='video2' ref={remoteVideoRef} autoPlay playsInline />
           </div>
         </div>
-        <div className="functions">
-          <div className="startCallBtnDiv">
-            <button onClick={startCall} className="startCallBtn">
-              <FaPhone className="startIcon"></FaPhone>
+        <div className='functions'>
+          <div className='startCallBtnDiv'>
+            <button onClick={startCall} className='startCallBtn'>
+              <FaPhone className='startIcon'></FaPhone>
             </button>
           </div>
-          <div className="cameraBtnDiv">
-            <button onClick={toggleVideo} className="cameraBtn">
-              {isCameraOpen ? (
-                <BsCameraVideoFill className="cameraIcon" />
-              ) : (
-                <BsFillCameraVideoOffFill className="cameraIcon" />
-              )}
+          <div className='cameraBtnDiv'>
+            <button onClick={toggleVideo} className='cameraBtn'>
+              {isCameraOpen ? <BsCameraVideoFill className='cameraIcon' /> : <BsFillCameraVideoOffFill className='cameraIcon' />}
             </button>
           </div>
-          <div className="micBtnDiv">
-            <button onClick={toggleMic} className="micBtn">
-              {isMicOpen ? (
-                <BsFillMicFill className="micIcon" />
-              ) : (
-                <BsFillMicMuteFill className="micIcon" />
-              )}
+          <div className='micBtnDiv'>
+            <button onClick={toggleMic} className='micBtn'>
+              {isMicOpen ? <BsFillMicFill className='micIcon' /> : <BsFillMicMuteFill className='micIcon' />}
             </button>
           </div>
-          <div className="textBtnDiv">
-            <button onClick={toggleChat} className="textBtn">
-              <BsFillChatLeftTextFill className="textIcon" />
+          <div className='textBtnDiv'>
+            <button onClick={toggleChat} className='textBtn'>
+              <BsFillChatLeftTextFill className='textIcon' />
             </button>
           </div>
-          <div className="endBtnDiv">
-            <button className="endBtn" onClick={NavigateToMain}>
-              <FaPhoneSlash className="endIcon"></FaPhoneSlash>
+          <div className='endBtnDiv'>
+            <button className='endBtn' onClick={NavigateToMain}>
+              <FaPhoneSlash className='endIcon'></FaPhoneSlash>
             </button>
+          </div>
+          <div className='micRecDiv'>
+            {isMicRec ? (
+              <button className='micRecBtn' onClick={toggleMicRec}>
+                <PiEar className='earIcon' />
+              </button>
+            ) : (
+              <button className='micRecBtnOff' onClick={toggleMicRec}>
+                <PiEar className='earIcon' />
+              </button>
+            )}
+          </div>
+          <div className='videoRecDiv'>
+            {isVideoRec ? (
+              <button className='videoRecBtn' onClick={toggleVideoRec}>
+                <FaHandPaper className='handIcon' />
+              </button>
+            ) : (
+              <button className='videoRecBtnOff' onClick={toggleVideoRec}>
+                <FaHandPaper className='handIcon' />
+              </button>
+            )}
           </div>
         </div>
       </div>
       {isChatOpen && (
-        <div className="chatBoxOpen">
-          <div className="chatBoxstyle">
-            <div className="chat-head">회의메세지</div>
-            <div className="chatLine"></div>
-            <div className="chat-message">
-              <div className="user1">
-                <div className="user1-name">user1</div>
-                <div className="user1-message"></div>
+        <div className='chatBoxOpen'>
+          <div className='chatBoxstyle'>
+            <div className='chat-head'>회의메세지</div>
+            <div className='chatLine'></div>
+            <div className='chat-message'>
+              {receivedData.map((data, index) => (
+                <div key={index}>
+                  {/* 서버로부터 받은 데이터 표시 */}
+                  <div>Label: {data.label}</div>
+                  <div>Confidence: {data.confidence}</div>
+                  {/* 추가적인 데이터 표시 */}
+                </div>
+              ))}
+              {/* <div className='user1'>
+                <div className='user1-name'>user1</div>
+                <div className='user1-message'></div>
               </div>
-              <div className="user2">
-                <div className="user2-message"></div>
-                <div className="user2-name">user2</div>
-              </div>
+              <div className='user2'>
+                <div className='user2-message'></div>
+                <div className='user2-name'>user2</div>
+              </div>{' '} */}
             </div>
           </div>
         </div>
       )}
-      {!isChatOpen && <div className="chatBox"></div>}
+      {!isChatOpen && <div className='chatBox'></div>}
     </div>
   );
 }

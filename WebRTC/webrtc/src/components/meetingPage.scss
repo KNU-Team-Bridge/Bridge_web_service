@@ -163,6 +163,64 @@
           }
         }
       }
+      .micRecDiv {
+        padding-left: 30px;
+        padding-right: 30px;
+        //border: 1px solid black;
+        .micRecBtn {
+          width: 75px;
+          height: 59px;
+          border-radius: 20px;
+          border: 0;
+          background-color: #faac58;
+          .earIcon {
+            color: white;
+            width: 35px;
+            height: 31px;
+          }
+        }
+        .micRecBtnOff {
+          width: 75px;
+          height: 59px;
+          border-radius: 20px;
+          border: 0;
+          background-color: #bdbdbd;
+          .earIcon {
+            color: white;
+            width: 35px;
+            height: 31px;
+          }
+        }
+      }
+      .videoRecDiv {
+        padding-left: 30px;
+        padding-right: 30px;
+        //border: 1px solid black;
+        .videoRecBtn {
+          width: 75px;
+          height: 59px;
+          border-radius: 20px;
+          border: 0;
+          background-color: #faac58;
+          .handIcon {
+            color: white;
+            width: 35px;
+            height: 31px;
+          }
+        }
+        .videoRecBtnOff {
+          width: 75px;
+          height: 59px;
+          border-radius: 20px;
+          border: 0;
+          background-color: #bdbdbd;
+          .handIcon {
+            color: white;
+            width: 35px;
+            height: 31px;
+          }
+        }
+      }
     }
   }
   .chatBox {
